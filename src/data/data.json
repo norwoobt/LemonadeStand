@@ -1,0 +1,76 @@
+{
+				stock: {
+					cups: 0,
+					lemons: 0,
+					sugar: 0,
+					ice: 0
+				},
+				store: {
+					items: [
+						{
+							type: "cups",
+							units: [
+								{
+									quantity: 25,
+									price: 0
+								},
+								{
+									quantity: 50,
+									price: 0
+								},
+								{
+									quantity: 100,
+									price: 0
+								}
+							]
+						}
+					]
+				}
+			}
+
+			componentDidMount() {
+				const inventory = {
+					inventory: {
+						stock: {
+							cups: 0,
+							lemons: 0,
+							sugar: 0,
+							ice: 0
+						},
+						store: {
+							items: [
+								{
+									type: "cups",
+									units: [
+										{
+											quantity: 25,
+											price: 0
+										},
+										{
+											quantity: 50,
+											price: 0
+										},
+										{
+											quantity: 100,
+											price: 0
+										}
+									]
+								}
+							]
+						}
+					}
+				};
+				this.setState({
+					a: 123,
+					cupName: "Cups",
+					cupQuantity: 0,
+					lemonName: "Lemons",
+					lemonQuantity: 0,
+					sugarName: "Cups of Sugar",
+					sugarQuantity: 0,
+					iceName: "Ice Cubes",
+					iceQuantity: 0,
+					...inventory,
+					isHidden: true
+				});
+			}
