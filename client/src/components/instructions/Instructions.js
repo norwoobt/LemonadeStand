@@ -15,7 +15,7 @@ const styles = {
 		margin: "auto",
 		display: "flex",
 		position: "relative",
-		height: "24vw",
+		height: "22.5vw",
 		overflowX: "hidden",
 		overflowY: "scroll",
 		webkitOverflowScrolling: "touch",

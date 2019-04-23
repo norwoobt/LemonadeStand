@@ -11,7 +11,7 @@ const styles = {
     }
 };
 
-class BuyButton extends React.Component {
+class InterestingFact extends React.Component {
     
 	render() {
 		const { classes, factNumber} = this.props;
@@ -23,4 +23,4 @@ class BuyButton extends React.Component {
 	}
 }
 
-export default withStyles(styles)(BuyButton);
+export default withStyles(styles)(InterestingFact);

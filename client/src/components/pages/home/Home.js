@@ -9,6 +9,8 @@ import Simulation from "../simulation/Simulation";
 import DayReport from "../dayreport/DayReport";
 import Card from "@material-ui/core/Card";
 import Instructions from "../../instructions/Instructions";
+import Leaderboard from "../leaderboard/Leaderboard";
+import Results from "../results/Results"
 import days from "../../../data/days.json";
 
 const styles = {
@@ -40,6 +42,9 @@ const styles = {
 		margin: "3% auto",
 		backgroundColor: "yellow"
 	},
+	leaderBoardButton: {
+		backgroundColor: "orange"
+	},
 	mainCardDiv: {
 		position: "relative",
 		width: "100%",
@@ -66,10 +71,13 @@ class Home extends React.Component {
 			money: 20.0,
 			showHome: true,
 			showGame: false,
+			showLeaderBoard: false,
 			showSimulation: false,
 			showReport: false,
+			showResults: false,
 			currentDay: 1,
 			dayLimit: 1,
+			dailyRevenue: 0,
 			cups: 0,
 			lemons: 0,
 			sugar: 0,
@@ -235,13 +243,24 @@ class Home extends React.Component {
 		this.setState({
 			showGame: false,
 			showHome: false,
-			showSimulation: true
+			showSimulation: true,
+			recentPurchaseItem: "",
+			recentPurchaseQuantity: 0,
+			recentPurhcaseCost: 0
 		});
 		console.log("lemons: " + this.state.lemonsPerCup);
 		console.log("sugar: " + this.state.sugarPerCup);
 		console.log("ice: " + this.state.icePerCup);
 		console.log("price: " + this.state.pricePerCup);
 	};
+
+	bankrupt = () => {
+		this.liquidateInventory();
+		this.setState({
+			showReport: false,
+			showResults: true,
+		});
+	}
 
 	handleReport = () => {
 		this.setState({
@@ -250,6 +269,46 @@ class Home extends React.Component {
 			showSimulation: false,
 			showReport: true
 		});
+	};
+
+	backToHome = () => {
+		this.setState({
+			showLeaderBoard: false,
+			showHome: true,
+		});
+	}
+
+	liquidateInventory = () => {};
+
+	//generates new stock prices and weather
+	generateDay = () => {};
+
+	nextDay = day => {
+		this.setState({ currentDay: day + 1 }, () => this.nextDayHelper(day));
+	};
+
+	nextDayHelper = day => {
+		this.generateDay();
+		if (day < 30) {
+			this.setState({
+				showReport: false,
+				showGame: true
+			});
+		} else {
+			this.liquidateInventory();
+			this.setState({
+				showReport: false
+				//showResults: true;
+			});
+		}
+	};
+
+	nextDayText = currentDay => {
+		if (currentDay < 30) return "Next Day";
+		else {
+			console.log("Current Day: " + currentDay);
+			return "View Final Results";
+		}
 	};
 
 	//start with getting # of potential customers
@@ -261,8 +320,7 @@ class Home extends React.Component {
 		switch (this.state.weatherForecast) {
 			case "sunny/clear":
 				this.setState({
-					potentialCustomers:
-						115 - (Math.random() * 20)
+					potentialCustomers: 115 - Math.random() * 20
 				});
 				break;
 			default:
@@ -289,16 +347,27 @@ class Home extends React.Component {
 		}
 	};
 
+	viewLeaderBoard = () => {
+		this.setState({
+			showGame: false,
+			showHome: false,
+			showLeaderBoard: true
+		});
+	};
+
 	render() {
 		const { classes } = this.props;
 		const {
 			showHome,
 			showGame,
 			showSimulation,
+			showLeaderBoard,
 			showReport,
+			showResults,
 			currentDay,
 			cupsPerPitcher,
 			dayLimit,
+			dailyRevenue,
 			lemonsPerCup,
 			sugarPerCup,
 			icePerCup,
@@ -331,6 +400,16 @@ class Home extends React.Component {
 							</Typography>
 							<Instructions />
 							<div className={classes.dayButtonDiv}>
+								<Button
+									variant="contained"
+									onClick={this.viewLeaderBoard}
+									className={[
+										classes.dayButton,
+										classes.leaderBoardButton
+									].join(" ")}
+								>
+									View Leaderboard
+								</Button>
 								<Button
 									variant="contained"
 									onClick={this.handleStart(7)}
@@ -399,11 +478,18 @@ class Home extends React.Component {
 				{showReport && (
 					<DayReport
 						currentDay={currentDay}
+						bankrupt={this.bankrupt}
 						potentialCustomers={potentialCustomers}
 						cupsSold={cupsSold}
 						weatherJudgement={weatherJudgement}
+						dailyRevenue={dailyRevenue.toFixed(2)}
+						money={money.toFixed(2)}
+						nextDay={this.nextDay}
+						nextDayText={this.nextDayText}
 					/>
 				)}
+				{showLeaderBoard && <Leaderboard backToHome = {this.backToHome}/>}
+				{showResults && <Results/>}
 			</MuiThemeProvider>
 		);
 	}

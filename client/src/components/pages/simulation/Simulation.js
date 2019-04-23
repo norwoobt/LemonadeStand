@@ -17,13 +17,12 @@ const styles = {
 		display: "inline-block",
 		margin: "0 10px 0 10px",
 		verticalAlign: "middle"
-
 	},
 	interestingFact: {
 		width: "25%",
 	},
 	progress: {
-		marginLeft: "1.4vw"
+		
 	},
 	loadingText: {
 		textAlign: "center",
@@ -31,7 +30,10 @@ const styles = {
 		color: "#132a42"
 	},
 	simCard: {
-		backgroundColor: "yellow"
+		backgroundColor: "yellow",
+		display: "block",
+		margin: "auto",
+		textAlign: "center",
 	}
 };
 

@@ -75,7 +75,7 @@ const styles = {
 
 class ProgressCard extends React.Component {
 	render() {
-		const { classes, money } = this.props;
+		const { classes, money, currentDay } = this.props;
 		return (
 			<Card style={styles.progressCard}>
 				<CardContent
@@ -94,7 +94,7 @@ class ProgressCard extends React.Component {
 						<tbody>
 							<tr>
 								<td style={styles.progTDStyle}>
-									Day: 1{/* {this.state.currDay} */}
+									Day: {currentDay}
 								</td>
 								<td style={styles.progTDStyle}>
 									Money: {money}

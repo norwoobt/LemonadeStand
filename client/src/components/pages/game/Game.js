@@ -82,8 +82,7 @@ class Game extends React.Component {
 						/>
 					</div>
 					<div className={classes.bottomDiv}>
-						<ProgressCard 
-						money={money}/>
+						<ProgressCard money={money} currentDay={currentDay} />
 					</div>
 				</div>
 			</MuiThemeProvider>
